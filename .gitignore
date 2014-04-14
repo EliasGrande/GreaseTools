@@ -1,0 +1,8 @@
+.buildpath
+.project
+.settings
+*~
+.DS_Store
+thumbs.db
+yuicompressor.jar
+build

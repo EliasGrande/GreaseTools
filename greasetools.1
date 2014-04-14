@@ -1,0 +1,92 @@
+.TH GREASETOOLS 1
+.SH NAME
+greasetools \- some tools for greasemonkey script projects
+.SH SYNOPSIS
+.B greasetools
+[\fB\-\-help\fR|\fB\-\-version\fR]
+.sp 0
+.B greasetools meta-block
+[\fB\-o\fR \fIoutputfile\fR] [\fIinputfile\fR]
+.sp 0
+.B greasetools meta-key
+\fIkey\fR [\fIinputfile\fR]
+.sp 0
+.B greasetools compress
+[\fB\-o\fR \fIoutputfile\fR] [\fIinputfile\fR]
+.sp 0
+.B greasetools install
+[\fB\-b\fR \fIbrowser\fR] [\fIinputfile\fR]
+.sp 0
+.B greasetools file-uri
+\fIfilepath\fR
+.sp 0
+.B greasetools data-uri
+[\fB-f\fR [\fB+\fItabwidth\fB,\fItabs\fB,\fIspaces\fB,\fIlinewidth\fR]] [\fIinputfile\fR]
+.sp 0
+.B greasetools dist-name
+[\fB\-s\fR \fIsuffix\fR] [\fIinputfile\fR]
+.sp 0
+.B greasetools yui
+[\fIargs...\fR]
+.sp 0
+.B greasetools yui-path
+[\fB\-e\fR]
+.sp 0
+.B greasetools yui-update
+.sp 0
+.B greasetools clean-trash
+[\fB\-r\fR] [\fIdirectory\fR]
+.SH DESCRIPTION
+GreaseTools is a set of commands useful for dealing with Greasemonkey scripts. Extract metadata, compress keeping metadata, convert an image into data-uri, etc.
+.SH COMMANDS
+.TP
+\fBmb\fR | \fBmeta-block\fR [\fB\-o\fR \fIoutputfile\fR] [\fIinputfile\fR]
+Print out metadata block. Returns error if no metadata block found.
+.TP
+\fBmk\fR | \fBmeta-key\fR \fIkey\fR [\fIinputfile\fR]
+Print out every value of metadata key \fB@\fIkey\fR.
+Prints one value per line, ignoring  the  empty  ones. 
+Returns error if key not found or all its values are empty.
+.TP
+\fBc\fR | \fBcompress\fR [\fB\-o\fR \fIoutputfile\fR] [\fIinputfile\fR]
+Minimize input using yuicompressor, preserving metadata and \fB/*!\fR comments.
+.TP
+\fBi\fR | \fBinstall\fR [\fB\-b\fR \fIbrowser\fR] [\fIinputfile\fR]
+Open local url of \fIinputfile\fR in \fIbrowser\fR, which triggers the installation of the script if greasemonkey (or equivalent) is installed. If \fIbrowser\fR is not specified it defaults to \fBfirefox\fR.
+.TP
+\fBfu\fR | \fBfile\-uri\fR \fIfilepath\fR
+Print out \fIfilepath\fR transformed into file URI scheme.
+.sp
+Output example: \fBfile:///motherfucking/fullpath/to/the/given/filepath\fR
+.TP
+\fBdu\fR | \fBdata-uri\fR [\fB-f\fR [\fB+\fItabwidth\fB,\fItabs\fB,\fIspaces\fB,\fIlinewidth\fR]] [\fIinputfile\fR]
+Print out \fIinputfile\fR transformed into data URI scheme, to include data in-line in web pages, mostly used for images. With the \fB\-f\fR option (which stands for format), formats the output as an indented JavaScript string. If \fB\-f\fR is present but \fB+\fIformat\fR is not specified, it defaults to \fB+0,0,4,80\fR, that is an indentation of 4 spaces and a line-width of 80 characters.
+.sp
+Html usage example: \fB<img alt="" src="\fIDATA_URI_HERE\fB" />\fR
+.sp 0
+Css usage example: \fBbackground-image: url(\fIDATA_URI_HERE\fB);\fR
+.TP
+\fBdn\fR | \fBdist-name\fR [\fB\-s \fIsuffix\fR] [\fIinputfile\fR]
+Print out a dist filename using metadata \fB@name\fR and \fB@version\fR. If \fIsuffix\fR is not specified, it defualts to '\-min'.
+For example if \fB@name\fR is 'Cool Script' and \fB@version\fR is '1.2.1', it prints 'cool-script-1.2.1-min.user.js'.
+.TP
+\fBy\fR | \fByui\fR [\fIargs...\fR]
+Just call yuicompressor with the given \fIargs\fR and \fBSTDIN\fR.
+.TP
+\fByp\fR | \fByui-path\fR [\fB\-e\fR]
+Print out the compressor pathname.
+With the \fB\-e\fR option (which stands for escape) escapes the spaces with '\fB\\\fR' (backslash).
+.TP
+\fByu\fR | \fByui-update\fR
+Downloads the latest release of yuicompressor to the GreaseTools lib folder.
+.TP
+\fBct\fR | \fBclean-trash\fR [\fB\-r\fR] [\fIdirectory\fR]
+Remove common OS trash (\fB*~\fR, \fBthumbs.db\fR, \fB.DS_Store\fR) from the given \fIdirectory\fR.
+With the \fB\-r\fR option searchs for these files recursively in the \fIdirectory\fR tree.
+If \fIdirectory\fR is not specified, it defaults to '\fB.\fR' (current working directory).
+.SH NOTES
+If no \fIinputfile\fR is specified, it defaults to \fBSTDIN\fR (standard input).
+.sp 0
+If no \fIoutputfile\fR is specified, it defaults to \fBSTDOUT\fR (standard output).
+.SH AUTHOR
+Written by Elías Grande Cásedas <elias.grande@casedas.com> (http://github.com/EliasGrande/GreaseTools) and released under MIT license.
