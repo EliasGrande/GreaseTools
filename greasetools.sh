@@ -23,7 +23,7 @@
 # THE SOFTWARE.
 
 PACKAGE="greasetools"
-VERSION="v1.0.0-alpha"
+VERSION="v2.0.0-alpha"
 WEBSITE="github.com/EliasGrande/GreaseTools"
 
 version()
@@ -383,7 +383,7 @@ dist_name()
 {
 	local inputfile="$1"
 	local suffix="$2"
-	[ -n "$suffix" ] || suffix="-min";
+	[ "$#" -eq "1" ] && suffix=".user.js";
 
 	local tmp="$tmpdir/dist_name_meta"
 	meta_block "$inputfile" "$tmp"
@@ -394,7 +394,7 @@ dist_name()
 		tr '[:upper:]' '[:lower:]' | \
 		sed -e 's#^[^a-z0-9]*##' \
 		    -e 's#[^a-z0-9]*$##' \
-		    -e 's#[^a-z0-9]+#-#g' \
+		    -e 's#[^a-z0-9]\+#-#g' \
 	`"
 	local version="`meta_key "version" "$tmp"`" || error
 	version="`\
@@ -402,9 +402,9 @@ dist_name()
 		tr '[:upper:]' '[:lower:]' | \
 		sed -e 's#^[^a-z0-9\.]*##' \
 		    -e 's#[^a-z0-9\.]*$##' \
-		    -e 's#[^a-z0-9\.]+#-#g' \
+		    -e 's#[^a-z0-9\.]\+#-#g' \
 	`"
-	echo "$name-$version$suffix.user.js"
+	echo "$name-$version$suffix"
 }
 
 param_count_error()
@@ -525,7 +525,6 @@ dist-name|dn)
 	case $# in
 	3|4)
 		[ "$2" = "-s" ] || option_error "$2" "$1"
-		ntest "$3" "<suffix>" "$1 -o"
 		dist_name "$4" "$3" || error;;
 	2)
 		dist_name "$2" || error;;

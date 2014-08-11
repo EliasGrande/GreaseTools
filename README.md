@@ -70,9 +70,9 @@ Commands
 
 	dn | dist-name [-s suffix] [inputfile]
 		Print  out a dist filename using metadata @name and @version. If
-		suffix is not specified, it defualts to '-min'.  For example  if
+		suffix is not specified, it defualts to '.user.js'.  For example  if
 		@name is 'Cool Script' and @version is '1.2.1', it prints 'cool-
-		script-1.2.1-min.user.js'.
+		script-1.2.1.user.js'.
 
 	y | yui [args...]
 		Just call yuicompressor with the given args and STDIN.
